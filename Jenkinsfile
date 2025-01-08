@@ -1,33 +1,27 @@
 pipeline {
     agent any
+
     stages {
         stage('Build') {
             steps {
                 echo 'Building the website...'
-                // No build step needed for static HTML
+                // Optionally, perform additional build tasks here
             }
         }
         stage('Test') {
             steps {
                 echo 'Testing the website...'
-                // Optional: Add tests for static HTML files, e.g., HTML validation
+                // Optionally, add automated tests here
             }
         }
         stage('Deploy') {
             steps {
-                echo 'Starting XAMPP Apache...'
-                bat 'start C:\\xampp\\xampp-control.exe'
-                echo 'Deploying the website to XAMPP...'
-                bat 'copy /Y * C:\\xampp\\htdocs\\'
+                echo 'Deploying the website...'
+                bat '''
+                    del /Q "C:\\xampp\\htdocs\\*"
+                    xcopy /E /I * "C:\\xampp\\htdocs\\"
+                '''
             }
-        }
-    }
-    post {
-        success {
-            echo 'Deployment successful! Website is live.'
-        }
-        failure {
-            echo 'Build or deployment failed.'
         }
     }
 }
