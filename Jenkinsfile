@@ -15,9 +15,10 @@ pipeline {
         }
         stage('Deploy') {
             steps {
+                echo 'Starting XAMPP Apache...'
+                bat 'start C:\\xampp\\xampp-control.exe'
                 echo 'Deploying the website to XAMPP...'
-                // Copy files to the XAMPP htdocs directory
-                sh 'cp -r * C:/xampp/htdocs/'
+                bat 'copy /Y * C:\\xampp\\htdocs\\'
             }
         }
     }
